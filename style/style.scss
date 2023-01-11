@@ -1,0 +1,44 @@
+:root {
+  --gray: #e7e7e7;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  header,
+  main {
+    max-width: 1400px;
+    width: 95%;
+  }
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 90%;
+    max-width: 268px;
+  }
+}
+
+main {
+  #nav-search {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    .main-text-search {
+      padding: 20px;
+      border: none;
+      background-color: var(--gray);
+      font-size: 18px;
+      border-radius: 5px;
+      position: relative;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
