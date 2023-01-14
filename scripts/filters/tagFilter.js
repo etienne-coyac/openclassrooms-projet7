@@ -1,25 +1,41 @@
 const selectedTagsContainer = document.querySelector("#selected-filters");
 
 function filterRecipesByTags() {
+  const openFilter = document.querySelector(".type-filter.filter-open");
   const allSelectedTags = Array.from(document.querySelectorAll("#selected-filters .tag"));
   const allRecipes = document.querySelectorAll(".recipe");
-
+  const allTags = {
+    ingredientTags: document.querySelectorAll("#ingredient-filters li"),
+    appareilTags: document.querySelectorAll("#appareil-filters li"),
+    ustensileTags: document.querySelectorAll("#ustensile-filters li"),
+  };
   const extractTagValuesByType = (type) => {
     return allSelectedTags
       .filter((st) => st.getAttribute("data-tagtype") === type)
       .map((t) => t.getAttribute("data-tagvalue"));
   };
 
-  const getRecipeIdsByTags = (tagsObject) => {
+  const getRecipeByTags = (tagsObject) => {
     return recipesData
-      .filter(
-        (r) =>
-          r.ingredients.map((i) => i.ingredient).some((i) => tagsObject.ingredients.includes(i)) ||
-          tagsObject.ingredients.length === 0
-      )
+      .filter((r) => {
+        const ingrs = r.ingredients.map((i) => i.ingredient);
+        return tagsObject.ingredients.every((i) => ingrs.indexOf(i) !== -1) || tagsObject.ingredients.length === 0;
+      })
       .filter((r) => tagsObject.appareils.includes(r.appliance) || tagsObject.appareils.length === 0)
-      .filter((r) => tagsObject.ustensiles.every((u) => r.ustensils.indexOf(u) !== -1))
-      .map((r) => r.id);
+      .filter((r) => tagsObject.ustensiles.every((u) => r.ustensils.indexOf(u) !== -1));
+  };
+
+  const setAvailableTags = (recipes) => {
+    const availableTags = {
+      ingredientTags: [...new Set(recipes.map((r) => r.ingredients.map((i) => i.ingredient)).flat())],
+      appareilTags: [...new Set(recipes.map((r) => r.appliance))],
+      ustensileTags: [...new Set(recipes.map((r) => r.ustensils).flat())],
+    };
+    allTags.ingredientTags.forEach((it) => {
+      availableTags.ingredientTags.includes(it.textContent)
+        ? it.classList.remove("hide-tag")
+        : it.classList.add("hide-tag");
+    });
   };
 
   const sortedTags = {
@@ -28,7 +44,9 @@ function filterRecipesByTags() {
     ustensiles: extractTagValuesByType("ustensile"),
   };
 
-  const availableRecipesIds = getRecipeIdsByTags(sortedTags);
+  //let only matching recipes
+  const availableRecipes = getRecipeByTags(sortedTags);
+  const availableRecipesIds = availableRecipes.map((r) => r.id);
   allRecipes.forEach((r) => {
     if (availableRecipesIds.includes(parseInt(r.getAttribute("data-recipeid")))) {
       r.classList.remove("hide-recipe");
@@ -36,6 +54,9 @@ function filterRecipesByTags() {
       r.classList.add("hide-recipe");
     }
   });
+  console.log(sortedTags, availableRecipes);
+  setAvailableTags(availableRecipes);
+  setOpenFiltersSize(openFilter);
 }
 
 function registerFilterListEvents() {

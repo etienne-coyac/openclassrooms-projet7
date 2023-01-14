@@ -36,8 +36,22 @@ function handleFilterClick(e) {
 
 function toggleOpenFilter(filter) {
   filter.classList.add("filter-open");
-  const content = filter.querySelector(".type-filter-content");
   const input = filter.querySelector(".filter-input");
+  setOpenFiltersSize(filter);
+  input.setAttribute("type", "text");
+  input.setAttribute("value", "");
+  input.focus();
+}
+function toggleCollapseFilter(filter) {
+  filter.classList.remove("filter-open");
+  const input = filter.querySelector(".filter-input");
+  setClosedFiltersSize(filter);
+  input.setAttribute("type", "button");
+  input.setAttribute("value", input.getAttribute("data-text"));
+}
+
+function setOpenFiltersSize(filter) {
+  const content = filter.querySelector(".type-filter-content");
   content.style.padding = `0px 15px 15px 15px`;
   const contentHeight =
     content.scrollHeight + parseFloat(content.style.paddingTop) + parseFloat(content.style.paddingBottom);
@@ -45,18 +59,12 @@ function toggleOpenFilter(filter) {
   content.style.height = `${contentHeight > 500 ? 500 : contentHeight}px`;
   content.style.width = `${contentWidth < 280 ? 280 : contentWidth}px`;
   filter.style.width = `${contentWidth < 280 ? 280 : contentWidth}px`;
-  input.setAttribute("type", "text");
-  input.setAttribute("value", "");
-  input.focus();
 }
-function toggleCollapseFilter(filter) {
-  filter.classList.remove("filter-open");
+
+function setClosedFiltersSize(filter) {
   const content = filter.querySelector(".type-filter-content");
-  const input = filter.querySelector(".filter-input");
   content.style.height = "0px";
   content.style.width = "170px";
   content.style.padding = "0 15px";
   filter.style.width = "170px";
-  input.setAttribute("type", "button");
-  input.setAttribute("value", input.getAttribute("data-text"));
 }

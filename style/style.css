@@ -227,6 +227,9 @@ main #nav-search .filters-list .type-filter .type-filter-content li {
   cursor: pointer;
   transition-duration: var(--default-transition-duration);
 }
+main #nav-search .filters-list .type-filter .type-filter-content li.hide-tag {
+  display: none;
+}
 main #nav-search .filters-list .type-filter .type-filter-content li:hover {
   font-weight: 900;
   transform: scale(1.05);
