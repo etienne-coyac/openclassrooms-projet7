@@ -36,6 +36,16 @@ function filterRecipesByTags() {
         ? it.classList.remove("hide-tag")
         : it.classList.add("hide-tag");
     });
+    allTags.appareilTags.forEach((it) => {
+      availableTags.appareilTags.includes(it.textContent)
+        ? it.classList.remove("hide-tag")
+        : it.classList.add("hide-tag");
+    });
+    allTags.ustensileTags.forEach((it) => {
+      availableTags.ustensileTags.includes(it.textContent)
+        ? it.classList.remove("hide-tag")
+        : it.classList.add("hide-tag");
+    });
   };
 
   const sortedTags = {
@@ -54,9 +64,10 @@ function filterRecipesByTags() {
       r.classList.add("hide-recipe");
     }
   });
-  console.log(sortedTags, availableRecipes);
   setAvailableTags(availableRecipes);
-  setOpenFiltersSize(openFilter);
+  if (openFilter) {
+    setOpenFiltersSize(openFilter);
+  }
 }
 
 function registerFilterListEvents() {

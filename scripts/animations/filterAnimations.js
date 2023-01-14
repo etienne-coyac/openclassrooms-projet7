@@ -1,13 +1,21 @@
-document.addEventListener("click", handleClickOutsideTagLists);
+// document.addEventListener("click", handleClickOutsideTagLists);
 
-function handleClickOutsideTagLists(e) {
-  const ingredientsFilter = document.querySelector("#ingredient-filter");
-  const appareilsFilter = document.querySelector("#appareil-filter");
-  const ustensilesFilter = document.querySelector("#ustensile-filter");
-  if (!ingredientsFilter.contains(e.target)) toggleCollapseFilter(ingredientsFilter);
-  if (!appareilsFilter.contains(e.target)) toggleCollapseFilter(appareilsFilter);
-  if (!ustensilesFilter.contains(e.target)) toggleCollapseFilter(ustensilesFilter);
-}
+// function handleClickOutsideTagLists(e) {
+//   const ingredientsFilter = document.querySelector("#ingredient-filter");
+//   const appareilsFilter = document.querySelector("#appareil-filter");
+//   const ustensilesFilter = document.querySelector("#ustensile-filter");
+//   const selectedTags = document.querySelectorAll("#selected-filters .tag");
+//   console.log(selectedTags, e.target);
+//   if (!ingredientsFilter.contains(e.target)) toggleCollapseFilter(ingredientsFilter);
+//   if (!appareilsFilter.contains(e.target)) toggleCollapseFilter(appareilsFilter);
+//   if (!ustensilesFilter.contains(e.target)) toggleCollapseFilter(ustensilesFilter);
+//   console.log(e.target);
+//   if (!selectedTags.contains(e.target)) {
+//     toggleCollapseFilter(ingredientsFilter);
+//     toggleCollapseFilter(appareilsFilter);
+//     toggleCollapseFilter(ustensilesFilter);
+//   }
+// }
 
 const typeFilters = document.querySelectorAll(".type-filter-title");
 
@@ -45,26 +53,33 @@ function toggleOpenFilter(filter) {
 function toggleCollapseFilter(filter) {
   filter.classList.remove("filter-open");
   const input = filter.querySelector(".filter-input");
+  //reset tags filters search
+  Array.from(filter.querySelectorAll(".hide-tag-filter")).forEach((t) => t.classList.remove("hide-tag-filter"));
   setClosedFiltersSize(filter);
   input.setAttribute("type", "button");
   input.setAttribute("value", input.getAttribute("data-text"));
 }
 
 function setOpenFiltersSize(filter) {
+  const wrapper = filter.querySelector(".filter-list-wrapper");
+  wrapper.style.overflowY = "hidden";
   const content = filter.querySelector(".type-filter-content");
-  content.style.padding = `0px 15px 15px 15px`;
-  const contentHeight =
-    content.scrollHeight + parseFloat(content.style.paddingTop) + parseFloat(content.style.paddingBottom);
+  const contentHeight = content.scrollHeight + 15;
   const contentWidth = content.scrollWidth;
-  content.style.height = `${contentHeight > 500 ? 500 : contentHeight}px`;
-  content.style.width = `${contentWidth < 280 ? 280 : contentWidth}px`;
+  wrapper.style.height = `${contentHeight > 500 ? 500 : contentHeight}px`;
+  wrapper.style.width = `${contentWidth < 280 ? 280 : contentWidth}px`;
   filter.style.width = `${contentWidth < 280 ? 280 : contentWidth}px`;
+
+  //delay to avoid text clip
+  setTimeout(function () {
+    wrapper.style.overflowY = "auto";
+  }, 400);
 }
 
 function setClosedFiltersSize(filter) {
-  const content = filter.querySelector(".type-filter-content");
-  content.style.height = "0px";
-  content.style.width = "170px";
-  content.style.padding = "0 15px";
+  const wrapper = filter.querySelector(".filter-list-wrapper");
+  // const content = filter.querySelector(".type-filter-content");
+  wrapper.style.height = "0px";
+  wrapper.style.width = "170px";
   filter.style.width = "170px";
 }

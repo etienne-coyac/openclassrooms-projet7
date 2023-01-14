@@ -29,6 +29,7 @@
           <div id="ingredient-filter" class="type-filter ingredient-color">
             <div class="type-filter-title">
               <input
+                id="ingredient-filter-input"
                 class="filter-input"
                 type="button"
                 placeholder="Rechercher un ingrédient..."
@@ -37,11 +38,14 @@
               />
               <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <ul id="ingredient-filters" class="type-filter-content"></ul>
+            <div class="filter-list-wrapper">
+              <ul id="ingredient-filters" class="type-filter-content"></ul>
+            </div>
           </div>
           <div id="appareil-filter" class="type-filter appareil-color">
             <div class="type-filter-title">
               <input
+                id="appareil-filter-input"
                 class="filter-input"
                 type="button"
                 placeholder="Rechercher un appareil..."
@@ -50,11 +54,14 @@
               />
               <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <ul id="appareil-filters" class="type-filter-content"></ul>
+            <div class="filter-list-wrapper">
+              <ul id="appareil-filters" class="type-filter-content"></ul>
+            </div>
           </div>
           <div id="ustensile-filter" class="type-filter ustensile-color">
             <div class="type-filter-title">
               <input
+                id="ustensile-filter-input"
                 class="filter-input"
                 type="button"
                 placeholder="Rechercher un ustensile..."
@@ -63,7 +70,9 @@
               />
               <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <ul id="ustensile-filters" class="type-filter-content"></ul>
+            <div class="filter-list-wrapper">
+              <ul id="ustensile-filters" class="type-filter-content"></ul>
+            </div>
           </div>
         </div>
       </nav>
@@ -74,6 +83,7 @@
     <script src="./scripts/templates/recipeTemplate.js"></script>
     <script src="./scripts/factories/recipeFactory.js"></script>
     <script src="./scripts/filters/tagFilter.js"></script>
+    <script src="./scripts/filters/serchInFilter.js"></script>
     <script src="./scripts/load/loadRecipes.js"></script>
   </body>
 </html>
