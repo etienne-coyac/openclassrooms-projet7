@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Les petits plats</title>
     <link rel="stylesheet" href="./style/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/6ed6311320.js" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -19,8 +22,58 @@
       <nav id="nav-search">
         <div class="main-text-search">
           <input type="text" class="main-text-search-input" placeholder="Rechercher une recette" />
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <ul id="selected-filters"></ul>
+        <div class="filters-list">
+          <div id="ingredient-filter" class="type-filter ingredient-color">
+            <div class="type-filter-title">
+              <input
+                class="filter-input"
+                type="button"
+                placeholder="Rechercher un ingrédient..."
+                value="Ingrédients"
+                data-text="Ingrédients"
+              />
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <ul id="ingredient-filters" class="type-filter-content"></ul>
+          </div>
+          <div id="appareil-filter" class="type-filter appareil-color">
+            <div class="type-filter-title">
+              <input
+                class="filter-input"
+                type="button"
+                placeholder="Rechercher un appareil..."
+                value="Appareils"
+                data-text="Appareils"
+              />
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <ul id="appareil-filters" class="type-filter-content"></ul>
+          </div>
+          <div id="ustensile-filter" class="type-filter ustensile-color">
+            <div class="type-filter-title">
+              <input
+                class="filter-input"
+                type="button"
+                placeholder="Rechercher un ustensile..."
+                value="Ustensiles"
+                data-text="Ustensiles"
+              />
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <ul id="ustensile-filters" class="type-filter-content"></ul>
+          </div>
         </div>
       </nav>
+      <section id="recipes"></section>
     </main>
+    <script src="./scripts/data/data.js"></script>
+    <script src="./scripts/templates/recipeTemplate.js"></script>
+    <script src="./scripts/factories/recipeFactory.js"></script>
+    <script src="./scripts/filters/tagFilter.js"></script>
+    <script src="./scripts/load/loadRecipes.js"></script>
+    <script src="./scripts/animations/filterAnimations.js"></script>
   </body>
 </html>
