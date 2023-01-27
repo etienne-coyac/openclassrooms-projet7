@@ -34,31 +34,27 @@ const getFiteredRecipes = (text) => {
     return getRecipesByTags();
   }
 
-  // const data = getRecipesByTags();
-  // const res = [];
-  // for (let i = 0; i < data.length; i++) {
-  //   //ingredients
-  //   let ingredientExists = false;
-  //   for (let j = 0; j < data[i].ingredients.length; j++) {
-  //     if (data[i].ingredients[j].ingredient.includes(text)) {
-  //       ingredientExists = true;
-  //     }
-  //   }
-  //   const nameExists = data[i].name.includes(text);
-  //   const descriptionExists = data[i].description.includes(text);
-  //   if (ingredientExists || nameExists || descriptionExists) {
-  //     res.push(data[i]);
-  //   }
-  // }
-  // return res;
+  const data = getRecipesByTags();
 
-  const filterFunction = (r) =>
-    r.ingredients.some((i) => i.ingredient.includes(text)) || r.name.includes(text) || r.description.includes(text);
-
-  const t0 = performance.now();
-  const res = getRecipesByTags().filter((r) => filterFunction(r));
-  const t1 = performance.now();
-  console.log(`took ${t1 - t0} milliseconds.`);
+  //NATIVE LOOP
+  const res = [];
+  //const t0 = performance.now();
+  for (let i = 0; i < data.length; i++) {
+    //ingredients
+    let ingredientExists = false;
+    for (let j = 0; j < data[i].ingredients.length; j++) {
+      if (data[i].ingredients[j].ingredient.includes(text)) {
+        ingredientExists = true;
+      }
+    }
+    const nameExists = data[i].name.includes(text);
+    const descriptionExists = data[i].description.includes(text);
+    if (ingredientExists || nameExists || descriptionExists) {
+      res.push(data[i]);
+    }
+  }
+  //const t1 = performance.now();
+  //console.log(`took ${t1 - t0} milliseconds.`);
   return res;
 };
 
