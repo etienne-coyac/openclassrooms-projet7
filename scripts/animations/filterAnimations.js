@@ -47,6 +47,7 @@ function toggleOpenFilter(filter) {
   const input = filter.querySelector(".filter-input");
   setOpenFiltersSize(filter);
   input.setAttribute("type", "text");
+  input.setAttribute("placeholder", `Rechercher un ${input.getAttribute("data-text").toLowerCase().slice(0, -1)}...`);
   input.setAttribute("value", "");
   input.focus();
 }
@@ -56,6 +57,7 @@ function toggleCollapseFilter(filter) {
   //reset tags filters search
   Array.from(filter.querySelectorAll(".hide-tag-filter")).forEach((t) => t.classList.remove("hide-tag-filter"));
   setClosedFiltersSize(filter);
+  input.removeAttribute("placeholder");
   input.setAttribute("type", "button");
   input.setAttribute("value", input.getAttribute("data-text"));
 }

@@ -5,7 +5,7 @@ const noResult = document.querySelector("#no-result");
 mainSearchInput.addEventListener("input", handleMainInputChange);
 
 function handleMainInputChange(e) {
-  displayAvailableRecipesAndTags(e.target.value);
+  displayAvailableRecipesAndTags();
 }
 
 const getRecipesByTags = () => {
@@ -18,7 +18,7 @@ const getRecipesByTags = () => {
   const tagsObject = {
     ingredients: extractTagValuesByType("ingredient"),
     appareils: extractTagValuesByType("appareil"),
-    ustensiles: extractTagValuesByType("ustensile")
+    ustensiles: extractTagValuesByType("ustensile"),
   };
   return recipesData
     .filter((r) => {
@@ -54,28 +54,24 @@ const getFiteredRecipes = (text) => {
 
   const filterFunction = (r) =>
     r.ingredients.some((i) => i.ingredient.includes(text)) || r.name.includes(text) || r.description.includes(text);
-
-  const t0 = performance.now();
   const res = getRecipesByTags().filter((r) => filterFunction(r));
-  const t1 = performance.now();
-  console.log(`took ${t1 - t0} milliseconds.`);
   return res;
 };
 
-function displayAvailableRecipesAndTags(text) {
+function displayAvailableRecipesAndTags() {
   const openFilter = document.querySelector(".type-filter.filter-open");
   const allRecipes = document.querySelectorAll(".recipe");
   const allTags = {
     ingredientTags: document.querySelectorAll("#ingredient-filters li"),
     appareilTags: document.querySelectorAll("#appareil-filters li"),
-    ustensileTags: document.querySelectorAll("#ustensile-filters li")
+    ustensileTags: document.querySelectorAll("#ustensile-filters li"),
   };
-
+  const text = mainSearchInput.value;
   const setAvailableTags = (recipes) => {
     const availableTags = {
       ingredientTags: [...new Set(recipes.map((r) => r.ingredients.map((i) => i.ingredient)).flat())],
       appareilTags: [...new Set(recipes.map((r) => r.appliance))],
-      ustensileTags: [...new Set(recipes.map((r) => r.ustensils).flat())]
+      ustensileTags: [...new Set(recipes.map((r) => r.ustensils).flat())],
     };
     allTags.ingredientTags.forEach((it) => {
       availableTags.ingredientTags.includes(it.textContent)
@@ -120,7 +116,7 @@ function registerFilterListEvents() {
   const tags = [
     ...ingredientsFilterList.querySelectorAll("li"),
     ...appareilFilterList.querySelectorAll("li"),
-    ...ustensileFilterList.querySelectorAll("li")
+    ...ustensileFilterList.querySelectorAll("li"),
   ];
   tags.forEach((t) => t.addEventListener("click", handleTagClick));
 }
