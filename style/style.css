@@ -299,4 +299,17 @@ main #recipes .recipe .recipe-content .recipe-description .recipe-text {
   width: 49%;
   font-size: 12px;
   margin: 0;
+}
+main #no-result {
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  display: none;
+  margin-top: -70px;
+}
+main #no-result.display-no-result {
+  display: flex;
+}
+main #no-result.display-no-result p {
+  margin-top: 0;
 }/*# sourceMappingURL=style.css.map */

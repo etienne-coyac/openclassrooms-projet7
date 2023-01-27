@@ -1,35 +1,81 @@
 const selectedTagsContainer = document.querySelector("#selected-filters");
+const mainSearchInput = document.querySelector("#main-text-search-input");
+const noResult = document.querySelector("#no-result");
 
-function filterRecipesByTags() {
-  const openFilter = document.querySelector(".type-filter.filter-open");
+mainSearchInput.addEventListener("input", handleMainInputChange);
+
+function handleMainInputChange(e) {
+  displayAvailableRecipesAndTags(e.target.value);
+}
+
+const getRecipesByTags = () => {
   const allSelectedTags = Array.from(document.querySelectorAll("#selected-filters .tag"));
-  const allRecipes = document.querySelectorAll(".recipe");
-  const allTags = {
-    ingredientTags: document.querySelectorAll("#ingredient-filters li"),
-    appareilTags: document.querySelectorAll("#appareil-filters li"),
-    ustensileTags: document.querySelectorAll("#ustensile-filters li"),
-  };
   const extractTagValuesByType = (type) => {
     return allSelectedTags
       .filter((st) => st.getAttribute("data-tagtype") === type)
       .map((t) => t.getAttribute("data-tagvalue"));
   };
+  const tagsObject = {
+    ingredients: extractTagValuesByType("ingredient"),
+    appareils: extractTagValuesByType("appareil"),
+    ustensiles: extractTagValuesByType("ustensile")
+  };
+  return recipesData
+    .filter((r) => {
+      const ingrs = r.ingredients.map((i) => i.ingredient);
+      return tagsObject.ingredients.every((i) => ingrs.indexOf(i) !== -1) || tagsObject.ingredients.length === 0;
+    })
+    .filter((r) => tagsObject.appareils.includes(r.appliance) || tagsObject.appareils.length === 0)
+    .filter((r) => tagsObject.ustensiles.every((u) => r.ustensils.indexOf(u) !== -1));
+};
 
-  const getRecipeByTags = (tagsObject) => {
-    return recipesData
-      .filter((r) => {
-        const ingrs = r.ingredients.map((i) => i.ingredient);
-        return tagsObject.ingredients.every((i) => ingrs.indexOf(i) !== -1) || tagsObject.ingredients.length === 0;
-      })
-      .filter((r) => tagsObject.appareils.includes(r.appliance) || tagsObject.appareils.length === 0)
-      .filter((r) => tagsObject.ustensiles.every((u) => r.ustensils.indexOf(u) !== -1));
+const getFiteredRecipes = (text) => {
+  if (text === undefined || text === "") {
+    return getRecipesByTags();
+  }
+
+  // const data = getRecipesByTags();
+  // const res = [];
+  // for (let i = 0; i < data.length; i++) {
+  //   //ingredients
+  //   let ingredientExists = false;
+  //   for (let j = 0; j < data[i].ingredients.length; j++) {
+  //     if (data[i].ingredients[j].ingredient.includes(text)) {
+  //       ingredientExists = true;
+  //     }
+  //   }
+  //   const nameExists = data[i].name.includes(text);
+  //   const descriptionExists = data[i].description.includes(text);
+  //   if (ingredientExists || nameExists || descriptionExists) {
+  //     res.push(data[i]);
+  //   }
+  // }
+  // return res;
+
+  const filterFunction = (r) =>
+    r.ingredients.some((i) => i.ingredient.includes(text)) || r.name.includes(text) || r.description.includes(text);
+
+  const t0 = performance.now();
+  const res = getRecipesByTags().filter((r) => filterFunction(r));
+  const t1 = performance.now();
+  console.log(`took ${t1 - t0} milliseconds.`);
+  return res;
+};
+
+function displayAvailableRecipesAndTags(text) {
+  const openFilter = document.querySelector(".type-filter.filter-open");
+  const allRecipes = document.querySelectorAll(".recipe");
+  const allTags = {
+    ingredientTags: document.querySelectorAll("#ingredient-filters li"),
+    appareilTags: document.querySelectorAll("#appareil-filters li"),
+    ustensileTags: document.querySelectorAll("#ustensile-filters li")
   };
 
   const setAvailableTags = (recipes) => {
     const availableTags = {
       ingredientTags: [...new Set(recipes.map((r) => r.ingredients.map((i) => i.ingredient)).flat())],
       appareilTags: [...new Set(recipes.map((r) => r.appliance))],
-      ustensileTags: [...new Set(recipes.map((r) => r.ustensils).flat())],
+      ustensileTags: [...new Set(recipes.map((r) => r.ustensils).flat())]
     };
     allTags.ingredientTags.forEach((it) => {
       availableTags.ingredientTags.includes(it.textContent)
@@ -48,14 +94,8 @@ function filterRecipesByTags() {
     });
   };
 
-  const sortedTags = {
-    ingredients: extractTagValuesByType("ingredient"),
-    appareils: extractTagValuesByType("appareil"),
-    ustensiles: extractTagValuesByType("ustensile"),
-  };
-
   //let only matching recipes
-  const availableRecipes = getRecipeByTags(sortedTags);
+  const availableRecipes = getFiteredRecipes(text);
   const availableRecipesIds = availableRecipes.map((r) => r.id);
   allRecipes.forEach((r) => {
     if (availableRecipesIds.includes(parseInt(r.getAttribute("data-recipeid")))) {
@@ -64,6 +104,11 @@ function filterRecipesByTags() {
       r.classList.add("hide-recipe");
     }
   });
+  if (availableRecipes.length === 0) {
+    noResult.classList.add("display-no-result");
+  } else {
+    noResult.classList.remove("display-no-result");
+  }
   setAvailableTags(availableRecipes);
   if (openFilter) {
     setOpenFiltersSize(openFilter);
@@ -75,7 +120,7 @@ function registerFilterListEvents() {
   const tags = [
     ...ingredientsFilterList.querySelectorAll("li"),
     ...appareilFilterList.querySelectorAll("li"),
-    ...ustensileFilterList.querySelectorAll("li"),
+    ...ustensileFilterList.querySelectorAll("li")
   ];
   tags.forEach((t) => t.addEventListener("click", handleTagClick));
 }
@@ -102,10 +147,10 @@ function handleTagClick(e) {
   const allTags = document.querySelectorAll(".tag");
   const newTag = allTags[allTags.length - 1];
   newTag.addEventListener("click", handleDeleteTag);
-  filterRecipesByTags();
+  displayAvailableRecipesAndTags();
 }
 
 function handleDeleteTag(e) {
   e.currentTarget.outerHTML = "";
-  filterRecipesByTags();
+  displayAvailableRecipesAndTags();
 }

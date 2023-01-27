@@ -21,7 +21,7 @@
     <main>
       <nav id="nav-search">
         <div class="main-text-search">
-          <input type="text" class="main-text-search-input" placeholder="Rechercher une recette" />
+          <input type="text" id="main-text-search-input" placeholder="Rechercher une recette" />
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
         <ul id="selected-filters"></ul>
@@ -77,12 +77,16 @@
         </div>
       </nav>
       <section id="recipes"></section>
+      <div id="no-result">
+        <h2>Aucune recette ne correspond à votre critère...</h2>
+        <p>Vous pouvez chercher "Tarte aux pommes", "poisson", etc.</p>
+      </div>
     </main>
     <script src="./scripts/data/data.js"></script>
     <script src="./scripts/animations/filterAnimations.js"></script>
     <script src="./scripts/templates/recipeTemplate.js"></script>
     <script src="./scripts/factories/recipeFactory.js"></script>
-    <script src="./scripts/filters/tagFilter.js"></script>
+    <script src="./scripts/filters/filter.js"></script>
     <script src="./scripts/filters/serchInFilter.js"></script>
     <script src="./scripts/load/loadRecipes.js"></script>
   </body>

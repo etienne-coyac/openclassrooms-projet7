@@ -305,4 +305,17 @@ main {
       }
     }
   }
+  #no-result {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    display: none;
+    margin-top: -70px;
+    &.display-no-result {
+      display: flex;
+      & p {
+        margin-top: 0;
+      }
+    }
+  }
 }
