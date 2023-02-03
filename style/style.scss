@@ -155,7 +155,7 @@ main {
           align-items: center;
           box-sizing: border-box;
           cursor: pointer;
-          transition-duration: width var(--default-transition-duration);
+          transition-duration: var(--default-transition-duration);
           width: 100%;
           input {
             &[type="text"] {
