@@ -15,11 +15,13 @@ const getRecipesByTags = () => {
       .filter((st) => st.getAttribute("data-tagtype") === type)
       .map((t) => t.getAttribute("data-tagvalue"));
   };
+  //get all selected tags
   const tagsObject = {
     ingredients: extractTagValuesByType("ingredient"),
     appareils: extractTagValuesByType("appareil"),
-    ustensiles: extractTagValuesByType("ustensile"),
+    ustensiles: extractTagValuesByType("ustensile")
   };
+  //filter recipes with selected tags
   return recipesData
     .filter((r) => {
       const ingrs = r.ingredients.map((i) => i.ingredient);
@@ -30,6 +32,7 @@ const getRecipesByTags = () => {
 };
 
 const getFiteredRecipes = (text) => {
+  //if no text, filter only by tags
   if (text === undefined || text === "") {
     return getRecipesByTags();
   }
@@ -54,6 +57,7 @@ const getFiteredRecipes = (text) => {
 
   const filterFunction = (r) =>
     r.ingredients.some((i) => i.ingredient.includes(text)) || r.name.includes(text) || r.description.includes(text);
+  //filter recipes with both tags & text search bar
   const res = getRecipesByTags().filter((r) => filterFunction(r));
   return res;
 };
@@ -64,14 +68,16 @@ function displayAvailableRecipesAndTags() {
   const allTags = {
     ingredientTags: document.querySelectorAll("#ingredient-filters li"),
     appareilTags: document.querySelectorAll("#appareil-filters li"),
-    ustensileTags: document.querySelectorAll("#ustensile-filters li"),
+    ustensileTags: document.querySelectorAll("#ustensile-filters li")
   };
   const text = mainSearchInput.value;
+
+  //define a function to set available tags when recipes are filtered
   const setAvailableTags = (recipes) => {
     const availableTags = {
       ingredientTags: [...new Set(recipes.map((r) => r.ingredients.map((i) => i.ingredient)).flat())],
       appareilTags: [...new Set(recipes.map((r) => r.appliance))],
-      ustensileTags: [...new Set(recipes.map((r) => r.ustensils).flat())],
+      ustensileTags: [...new Set(recipes.map((r) => r.ustensils).flat())]
     };
     allTags.ingredientTags.forEach((it) => {
       availableTags.ingredientTags.includes(it.textContent)
@@ -90,16 +96,20 @@ function displayAvailableRecipesAndTags() {
     });
   };
 
-  //let only matching recipes
+  //only matching recipes
   const availableRecipes = getFiteredRecipes(text);
   const availableRecipesIds = availableRecipes.map((r) => r.id);
   allRecipes.forEach((r) => {
     if (availableRecipesIds.includes(parseInt(r.getAttribute("data-recipeid")))) {
+      //if recipe id is in availableRecipesIds list
       r.classList.remove("hide-recipe");
     } else {
+      //else hide recipe
       r.classList.add("hide-recipe");
     }
   });
+
+  // if no result display error message
   if (availableRecipes.length === 0) {
     noResult.classList.add("display-no-result");
   } else {
@@ -107,6 +117,7 @@ function displayAvailableRecipesAndTags() {
   }
   setAvailableTags(availableRecipes);
   if (openFilter) {
+    // reset filter window size if open
     setOpenFiltersSize(openFilter);
   }
 }
@@ -116,8 +127,9 @@ function registerFilterListEvents() {
   const tags = [
     ...ingredientsFilterList.querySelectorAll("li"),
     ...appareilFilterList.querySelectorAll("li"),
-    ...ustensileFilterList.querySelectorAll("li"),
+    ...ustensileFilterList.querySelectorAll("li")
   ];
+  //add event listener on each one
   tags.forEach((t) => t.addEventListener("click", handleTagClick));
 }
 
@@ -146,7 +158,9 @@ function handleTagClick(e) {
   displayAvailableRecipesAndTags();
 }
 
+//on delete tag
 function handleDeleteTag(e) {
   e.currentTarget.outerHTML = "";
+  //recompute available recipes
   displayAvailableRecipesAndTags();
 }

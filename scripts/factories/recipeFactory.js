@@ -1,3 +1,4 @@
+//define factory functions
 function getRecipeFactory(recipes) {
   const recipeTemplate = new RecipeTemplate(recipes);
 

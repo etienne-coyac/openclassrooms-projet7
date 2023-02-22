@@ -17,6 +17,7 @@
 //   }
 // }
 
+//register events
 const typeFilters = document.querySelectorAll(".type-filter-title");
 
 typeFilters.forEach((t) => {
@@ -28,12 +29,13 @@ typeFilters.forEach((t) => {
 function handleFilterClick(e) {
   const filter = e.currentTarget.parentNode;
   const clickTarget = e.target;
+  //close tag filter if click outside text input
   if (filter.classList.contains("filter-open")) {
     if (clickTarget.localName !== "input") {
       toggleCollapseFilter(filter);
     }
   } else {
-    //close others if open
+    //close others if open -> only 1 open at a time
     const alreadyOpen = document.querySelector(".filter-open");
     if (alreadyOpen) {
       toggleCollapseFilter(alreadyOpen);
@@ -63,6 +65,7 @@ function toggleCollapseFilter(filter) {
 }
 
 function setOpenFiltersSize(filter) {
+  //compute filter window size to properly fit content
   const wrapper = filter.querySelector(".filter-list-wrapper");
   wrapper.style.overflowY = "hidden";
   const content = filter.querySelector(".type-filter-content");
@@ -80,7 +83,7 @@ function setOpenFiltersSize(filter) {
 
 function setClosedFiltersSize(filter) {
   const wrapper = filter.querySelector(".filter-list-wrapper");
-  // const content = filter.querySelector(".type-filter-content");
+  //reset size to default (hidden)
   wrapper.style.height = "0px";
   wrapper.style.width = "170px";
   filter.style.width = "170px";
