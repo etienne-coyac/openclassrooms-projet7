@@ -36,7 +36,7 @@ const getFiteredRecipes = (text) => {
   if (text === undefined || text === "") {
     return getRecipesByTags();
   }
-
+  text = text.toLowerCase();
   // const data = getRecipesByTags();
   // const res = [];
   // for (let i = 0; i < data.length; i++) {
@@ -56,7 +56,9 @@ const getFiteredRecipes = (text) => {
   // return res;
 
   const filterFunction = (r) =>
-    r.ingredients.some((i) => i.ingredient.includes(text)) || r.name.includes(text) || r.description.includes(text);
+    r.ingredients.some((i) => i.ingredient.toLowerCase().includes(text)) ||
+    r.name.toLowerCase().includes(text) ||
+    r.description.toLowerCase().includes(text);
   //filter recipes with both tags & text search bar
   const res = getRecipesByTags().filter((r) => filterFunction(r));
   return res;
@@ -64,6 +66,7 @@ const getFiteredRecipes = (text) => {
 
 function displayAvailableRecipesAndTags() {
   const openFilter = document.querySelector(".type-filter.filter-open");
+  //get all recipes & tags from DOM to hide or display them
   const allRecipes = document.querySelectorAll(".recipe");
   const allTags = {
     ingredientTags: document.querySelectorAll("#ingredient-filters li"),
@@ -115,6 +118,7 @@ function displayAvailableRecipesAndTags() {
   } else {
     noResult.classList.remove("display-no-result");
   }
+  //hide or display tags
   setAvailableTags(availableRecipes);
   if (openFilter) {
     // reset filter window size if open

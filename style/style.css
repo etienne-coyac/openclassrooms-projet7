@@ -151,7 +151,7 @@ main #nav-search .filters-list .type-filter .type-filter-title {
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
-  transition-duration: width var(--default-transition-duration);
+  transition-duration: var(--default-transition-duration);
   width: 100%;
 }
 main #nav-search .filters-list .type-filter .type-filter-title input {
@@ -165,7 +165,7 @@ main #nav-search .filters-list .type-filter .type-filter-title input {
   border: none;
   width: 100%;
 }
-main #nav-search .filters-list .type-filter .type-filter-title input[type=text] {
+main #nav-search .filters-list .type-filter .type-filter-title input[type="text"] {
   padding-left: 5px;
 }
 main #nav-search .filters-list .type-filter .type-filter-title input::-moz-placeholder {
@@ -177,7 +177,8 @@ main #nav-search .filters-list .type-filter .type-filter-title input:-ms-input-p
 main #nav-search .filters-list .type-filter .type-filter-title input::placeholder {
   color: white;
 }
-main #nav-search .filters-list .type-filter .type-filter-title input:focus, main #nav-search .filters-list .type-filter .type-filter-title input:focus-within {
+main #nav-search .filters-list .type-filter .type-filter-title input:focus,
+main #nav-search .filters-list .type-filter .type-filter-title input:focus-within {
   outline: none;
 }
 main #nav-search .filters-list .type-filter .type-filter-title i {
@@ -190,7 +191,8 @@ main #nav-search .filters-list .type-filter .filter-list-wrapper {
   background-color: inherit;
   max-height: 500px;
   overflow-y: auto;
-  transition: height var(--default-transition-duration), width var(--default-transition-duration), padding var(--default-transition-duration);
+  transition: height var(--default-transition-duration), width var(--default-transition-duration),
+    padding var(--default-transition-duration);
   width: var(--default-filter-width);
   height: 0;
   border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -215,7 +217,7 @@ main #nav-search .filters-list .type-filter .filter-list-wrapper .type-filter-co
   grid-template-columns: 1fr 1fr 1fr;
   row-gap: 10px;
   -moz-column-gap: 80px;
-       column-gap: 80px;
+  column-gap: 80px;
   box-sizing: border-box;
   height: 0;
   padding: 0 15px 15px 15px;
@@ -231,7 +233,8 @@ main #nav-search .filters-list .type-filter .filter-list-wrapper .type-filter-co
   cursor: pointer;
   transition-duration: var(--default-transition-duration);
 }
-main #nav-search .filters-list .type-filter .filter-list-wrapper .type-filter-content li.hide-tag, main #nav-search .filters-list .type-filter .filter-list-wrapper .type-filter-content li.hide-tag-filter {
+main #nav-search .filters-list .type-filter .filter-list-wrapper .type-filter-content li.hide-tag,
+main #nav-search .filters-list .type-filter .filter-list-wrapper .type-filter-content li.hide-tag-filter {
   display: none;
 }
 main #nav-search .filters-list .type-filter .filter-list-wrapper .type-filter-content li:hover {
@@ -312,4 +315,4 @@ main #no-result.display-no-result {
 }
 main #no-result.display-no-result p {
   margin-top: 0;
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */
